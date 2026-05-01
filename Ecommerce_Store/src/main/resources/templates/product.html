@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{base::layout(~{::section})}">
+<head>
+<meta charset="UTF-8">
+<title>StyleCart Products</title>
+
+<style>
+
+.list-group-item.active {
+    z-index: 2;
+    
+    background-color: #DC3545;
+    border-color: #DC3545;
+}
+
+element.style {
+    z-index: 2;
+    /* color: #DC3545; */
+    background-color: #DC3545;
+    border-color: #DC3545;
+}
+
+</style>
+</head>
+<body>
+	<section>
+		<div class="container-fluid bg-danger p-5">
+			<div class="row">
+				<div class="col-md-8 offset-md-2">
+					<form action="">
+						<div class="input-group">
+							<input class="form-control" type="text" name="search">
+							<button class="btn btn-light text-dark ms-3 col-md-2" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search Product</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<!-- category side bar start -->
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-2 mt-1 p-0">
+					<div class="card shadow-sm p-0 mb-5 bg-body-tertiary rounded">
+						<div class="card-body">
+							<div class="list-group">
+								<p class="fs-5">Category</p>
+								<a href="/products" class="list-group-item list-group-item-action"
+									th:classappend="${paramValue == ''} ? 'active' : ''"
+									aria-current="true"> All </a> 
+								
+								<a href="#" th:each="category : ${allActiveCategory}" th:href="@{'/products?category='+${category.categoryName}}"
+								    th:classappend="${paramValue == category.categoryName} ? 'active' : '' "
+									class="list-group-item list-group-item-action">[[${category.categoryName}]]</a>
+								
+							</div>
+
+						</div>
+					</div>
+					
+				</div>
+
+				<div class="col-md-10">
+					<div class="card mt-1 shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+						<div class="card-body">
+							<p class="fs-3 text-center fw-bold">Browse Products</p>
+							<div class="row">
+							
+							
+							<th:block th:if="${allActiveProducts.size > 0}">
+								<div class="col-md-3" th:each="product : ${allActiveProducts}">
+									<a th:href="@{'/product/'+${product.id}}" style="text-decoration:none;color:black;">
+										<div class="card shadow-sm p-2 mb-4 bg-white rounded">
+											<div class="card-body">
+												<img alt="product_image"
+													 th:src="@{'/img/product_image/'+${product.productImage}}"
+													 width="100%" height="150px">
+												<p class="fs-5 text-center"><b>[[${product.productTitle}]]</b></p>
+
+												<div class="row text-center">
+													<p class="fs-6 fw-bold">
+														<span>₹ [[${product.discountPrice}]]</span><br>
+														<span class="text-decoration-line-through text-secondary">
+														₹ [[${product.productPrice}]]</span>
+														<span class="fs-6 text-success">[[${product.discount}]] % Off</span>
+													</p>
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+							</th:block>
+							<th:block th:unless="${allActiveProducts.size > 0}">
+								<p class="fs-3 text-danger mt-3 text-center">No Products Found for this category!</p>
+							</th:block>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- category side bar end -->
+		<script>
+		element.style.zIndex = 2;
+		element.style.backgroundColor = "#DC3545";
+		element.style.borderColor = "#DC3545";
+		</script>
+	</section>
+</body>
+</html>
